@@ -17,6 +17,7 @@ use core::hash::{Hash, Hasher};
     not(target_feature = "sse2"),
     not(target_feature = "avx"),
     not(target_feature = "avx2"),
+    not(target_feature = "neon"),
 ))]
 mod default;
 #[cfg(all(
@@ -24,6 +25,7 @@ mod default;
     not(target_feature = "sse2"),
     not(target_feature = "avx"),
     not(target_feature = "avx2"),
+    not(target_feature = "neon"),
 ))]
 pub use self::default::*;
 
@@ -65,6 +67,11 @@ mod avx2;
     target_feature = "avx2"
 ))]
 pub use self::avx2::*;
+
+#[cfg(all(target_arch = "aarch64", target_feature = "neon"))]
+mod neon;
+#[cfg(all(target_arch = "aarch64", target_feature = "neon"))]
+pub use self::neon::*;
 
 #[cfg(all(target_family = "wasm", target_feature = "simd128"))]
 mod wasm;
